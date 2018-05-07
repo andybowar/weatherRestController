@@ -5,10 +5,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Properties {
 
+    private String textDescription;
     private Temperature temperature;
     private Dewpoint dewpoint;
     private WindChill windChill;
     private RelativeHumidity relativeHumidity;
+
+    public String getTextDescription() {
+        return textDescription;
+    }
 
     public Temperature getTemperature() {
         return temperature;
@@ -24,6 +29,10 @@ public class Properties {
 
     public RelativeHumidity getRelativeHumidity() {
         return relativeHumidity;
+    }
+
+    public void setTextDescription(String textDescription) {
+        this.textDescription = textDescription;
     }
 
     public void setTemperature(Temperature temperature) {

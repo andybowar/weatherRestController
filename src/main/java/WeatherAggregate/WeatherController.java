@@ -2,6 +2,7 @@ package WeatherAggregate;
 
 import CurrentWeather.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,12 +19,16 @@ public class WeatherController {
     private RelativeHumidity humidity;
     private String station;
 
-    private RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    private RestTemplate restTemplate;
 
     @RequestMapping("/weather")
     public Weather weather(@RequestParam(value = "station", defaultValue = "KMSP") String station) {
+
         WeatherCat weatherCategory = restTemplate.getForObject("https://api.weather.gov/stations/" + station + "/observations/current", WeatherCat.class);
-        return new Weather(weatherCategory.getProperties().getTemperature().convertCelToFah(),
+
+        return new Weather(String.format(weatherCategory.getProperties().getTextDescription()),
+                weatherCategory.getProperties().getTemperature().convertCelToFah(),
                 weatherCategory.getProperties().getDewpoint().convertCelToFah(),
                 weatherCategory.getProperties().getWindChill().convertCelToFah(),
                 weatherCategory.getProperties().getRelativeHumidity().getValue());
